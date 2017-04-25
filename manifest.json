@@ -8,11 +8,19 @@
     "default_title": "Click here!"
   },
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": [
+      "js/lib/jquery.js",
+      "js/db.js",
+      "js/http.js",
+      "js/my_stats.js",
+      "js/notification.js",
+      "js/tabs.js"
+    ]
   },
   "permissions": [
     "activeTab",
     "notifications",
-    "tabs"
+    "tabs",
+    "storage"
   ]
 }
