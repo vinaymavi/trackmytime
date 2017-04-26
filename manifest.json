@@ -10,6 +10,7 @@
   "background": {
     "scripts": [
       "js/lib/jquery.js",
+      "js/entity/website.js",
       "js/db.js",
       "js/http.js",
       "js/my_stats.js",
