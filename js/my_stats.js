@@ -19,17 +19,19 @@ var myStats = (function () {
         } else {
             console.log("Not a website instance.");
         }
-    }
+    };
 
     function process(website) {
         if (currentSite !== undefined) {
-            if (currentSite.url === website.url) {
+            if (currentSite.domain.domain === website.domain.domain) {
                 console.log("Same site");
             } else {
                 pushData(currentSite);
+                //TODO put startTime
                 currentSite = website;
             }
         } else {
+            //TODO put startTime
             currentSite = website;
         }
     }
@@ -37,6 +39,7 @@ var myStats = (function () {
     function pushData(website) {
         //TODO push data to db.
         //TODO add endTime;
+        console.log("Push data");
         console.log(website);
     }
 
