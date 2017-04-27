@@ -26,21 +26,31 @@ var myStats = (function () {
             if (currentSite.domain.domain === website.domain.domain) {
                 console.log("Same site");
             } else {
+                currentSite.endTime = new moment();
+                calDur(currentSite);
                 pushData(currentSite);
-                //TODO put startTime
+                website.startTime = new moment();
                 currentSite = website;
             }
         } else {
-            //TODO put startTime
+            website.startTime = new moment();
             currentSite = website;
         }
     }
 
     function pushData(website) {
-        //TODO push data to db.
-        //TODO add endTime;
         console.log("Push data");
-        console.log(website);
+        console.log(website.toString());
+        myCloud.push(website.toString());
+    }
+
+    /**
+     * Calculate duration between startTime and endTime.
+     */
+    function calDur(website) {
+        var duration = moment.duration(website.endTime.diff(website.startTime));
+        var seconds = duration.asSeconds();
+        website.duration = seconds;
     }
 
     return myStats;

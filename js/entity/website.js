@@ -17,6 +17,9 @@ var Website = (function () {
         this.tabId = tabId;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.toString = function () {
+            return {"value": JSON.stringify(this)};
+        }
     }
 
 

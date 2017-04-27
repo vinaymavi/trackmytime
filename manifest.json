@@ -10,6 +10,7 @@
   "background": {
     "scripts": [
       "js/lib/jquery.js",
+      "js/lib/moment.js",
       "js/entity/website.js",
       "js/entity/domain.js",
       "js/db.js",
@@ -23,6 +24,7 @@
     "activeTab",
     "notifications",
     "tabs",
-    "storage"
+    "storage",
+    "https://*/"
   ]
 }
