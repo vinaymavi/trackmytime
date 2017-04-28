@@ -40,8 +40,8 @@ var myStats = (function () {
 
     function pushData(website) {
         console.log("Push data");
-        console.log(website.toString());
-        myCloud.push(website.toString());
+        console.log(JSON.stringify(website.toString()));
+        myCloud.push(JSON.stringify(website.toString()));
     }
 
     /**
