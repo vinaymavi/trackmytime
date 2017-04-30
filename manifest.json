@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "my stats",
+  "name": "My Stats",
   "description": "This extension is used to monitor visiting time of a website. ",
   "version": "0.0.1",
   "browser_action": {
