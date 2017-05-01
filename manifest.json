@@ -17,7 +17,8 @@
       "js/http.js",
       "js/my_stats.js",
       "js/notification.js",
-      "js/tabs.js"
+      "js/tabs.js",
+      "js/window.js"
     ]
   },
   "permissions": [

@@ -33,6 +33,14 @@ var myTabs = (function () {
             })
         });
     };
+    myTabs.getActive = function () {
+        var dfd = jQuery.Deferred();
+        chrome.tabs.query({"active": true}, function (tabs) {
+            console.log(tabs);
+            dfd.resolve(tabs);
+        });
+        return dfd.promise();
+    }
     /**
      * Create instance of website by tabId.
      * @param {{Integer}} tabId

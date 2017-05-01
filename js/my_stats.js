@@ -2,6 +2,7 @@
  * File that contains logic to calculate visit time.
  */
 //TODO create a config file.
+/*TODO Push local logs to server.*/
 console.log("my stats js loaded.");
 var myStats = (function () {
     var myStats = {};
@@ -11,6 +12,7 @@ var myStats = (function () {
      */
     myStats.init = function () {
         myTabs.registerListeners();
+        myWindows.registerListeners();
     };
 
     myStats.checkAndUpdate = function (website) {
@@ -20,7 +22,17 @@ var myStats = (function () {
             console.log("Not a website instance.");
         }
     };
-
+    /**
+     * Push current site data when chrome window out of focus.
+     */
+    myStats.onWindowOffFocus = function () {
+        if (typeof  currentSite !== "undefined") {
+            currentSite.endTime = new moment();
+            calDur(currentSite);
+            pushData(currentSite);
+            currentSite = undefined;
+        }
+    };
     function process(website) {
         if (currentSite !== undefined) {
             if (currentSite.domain.domain === website.domain.domain) {
