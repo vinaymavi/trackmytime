@@ -13,6 +13,7 @@ var myStats = (function () {
     myStats.init = function () {
         myTabs.registerListeners();
         myWindows.registerListeners();
+        myNotification.startTimer();
     };
 
     myStats.checkAndUpdate = function (website) {
@@ -53,6 +54,7 @@ var myStats = (function () {
     function pushData(website) {
         console.log("Push data");
         console.log(JSON.stringify(website.toString()));
+        myDb.save(website);
         myCloud.push(JSON.stringify(website.toString()));
     }
 
