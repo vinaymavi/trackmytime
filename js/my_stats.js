@@ -4,6 +4,7 @@
 //TODO create a config file.
 /*TODO Push local logs to server.*/
 console.log("my stats js loaded.");
+var isInit = false;
 var myStats = (function () {
     var myStats = {};
     var currentSite;
@@ -73,8 +74,13 @@ var myStats = (function () {
 // Extension initialization.
 
 chrome.runtime.onStartup.addListener(init);
+chrome.runtime.onInstalled.addListener(init);
 
 function init() {
-    console.log("onStartUp Calling.");
-    myStats.init();
+
+    if (!isInit) {
+        console.log("onStartUp Calling.");
+        myStats.init();
+        isInit = true;
+    }
 }
