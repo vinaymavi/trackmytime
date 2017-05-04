@@ -35,5 +35,23 @@
     "16": "images/icon3.png",
     "48": "images/icon3.png",
     "128": "images/icon3.png"
-  }
+  },
+  "externally_connectable": {
+    "matches": [
+      "http://localhost:8080/*",
+      "https://my-stats-ext.appspot.com/"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost:8080/*",
+        "https://my-stats-ext.appspot.com/*"
+      ],
+      "js": [
+        "js/content-script.js"
+      ]
+    }
+  ]
+
 }

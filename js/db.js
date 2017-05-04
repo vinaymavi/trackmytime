@@ -17,7 +17,7 @@ var myDb = (function () {
                 console.error("Error in fetching app_config.");
                 dfd.reject();
             } else {
-                dfd.resolve(resp);
+                dfd.resolve(resp[myConfig.APP_CONFIG]);
             }
         });
         return dfd.promise();

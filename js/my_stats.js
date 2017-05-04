@@ -95,3 +95,14 @@ function init() {
         isInit = true;
     }
 }
+chrome.runtime.onMessageExternal.addListener(
+    function (request, sender, sendResponse) {
+        console.log(request);
+        myDb.deviceId().then(function (resp) {
+            if (resp['device_id'] === "undefined") {
+                sendResponse({'hasDeviceId': false})
+            } else {
+                sendResponse("{'hasDeviceId': true, 'device_id': resp['device_id']}");
+            }
+        })
+    });

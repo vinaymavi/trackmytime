@@ -13,10 +13,10 @@ var myConfig = (function () {
         var dfd = jQuery.Deferred();
         myDb.deviceId().then(function (resp) {
             console.log(resp);
-            if (typeof resp[config.APP_CONFIG] === "undefined") {
-                dfd.resolve(false);
-            } else {
+            if (typeof resp !== "undefined" && typeof resp['device_id'] !== "undefined") {
                 dfd.resolve(true);
+            } else {
+                dfd.resolve(false);
             }
 
         }, function (resp) {
