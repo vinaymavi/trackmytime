@@ -1,6 +1,7 @@
 /**
  * File that will use to display notifications.
  */
+'use strict';
 console.log("Notification js loaded.");
 var myNotification = (function () {
     var myNotification = {};
@@ -8,7 +9,7 @@ var myNotification = (function () {
     // Interval in minutes.
     var ALARM_INTERVAL = 1;
     var STORAGE_NAME = "my_stats";
-    var SINGLE_SLOT = 1 * 60;
+    var SINGLE_SLOT = 15 * 60;
 
     /**
      * Display information for single site.
@@ -77,7 +78,7 @@ var myNotification = (function () {
                             "name": val,
                             duration: website.duration
                         });
-                        website.notification_count++;
+                        website.notification_count = parseInt(website.duration / SINGLE_SLOT)
                     }
                 });
 

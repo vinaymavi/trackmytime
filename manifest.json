@@ -1,11 +1,11 @@
 {
   "manifest_version": 2,
   "name": "My Stats",
-  "description": "This extension is used to monitor visiting time of a website. ",
-  "version": "0.0.2",
+  "description": "Extension to track per website visit time, user can use this extension on multiple chrome accounts and multiple laptops. extension provide graphical representation of data on cloud.This is a cloud first solution that provide multiple account/devices data synchronization",
+  "version": "0.0.3",
   "browser_action": {
     "default_icon": "images/icon3.png",
-    "default_title": "Click here!"
+    "default_title": "Check Statistics"
   },
   "background": {
     "scripts": [
@@ -18,7 +18,8 @@
       "js/my_stats.js",
       "js/notification.js",
       "js/tabs.js",
-      "js/window.js"
+      "js/window.js",
+      "js/config.js"
     ]
   },
   "permissions": [

@@ -77,9 +77,20 @@ chrome.runtime.onStartup.addListener(init);
 chrome.runtime.onInstalled.addListener(init);
 
 function init() {
-
     if (!isInit) {
-        console.log("onStartUp Calling.");
+        console.log("MyStats init.");
+        myConfig.hasDeviceId().then(function (bool) {
+            if (!bool) {
+                myCloud.getDeviceId().then(function (resp) {
+                    console.log(resp);
+                    if (typeof resp.device_id !== "undefined") {
+                        myConfig.setDeviceId(resp.device_id)
+                    } else {
+                        console.error("No device id returned from server.");
+                    }
+                });
+            }
+        });
         myStats.init();
         isInit = true;
     }

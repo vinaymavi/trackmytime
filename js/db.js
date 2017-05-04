@@ -1,22 +1,53 @@
 /**
  * File to store and load data from db.
  */
+'use strict';
 console.log("DB js loaded.");
 //TODO we need to support local data storage.
 var myDb = (function () {
-    //TODO this should be part of config.
-    var STORAGE_NAME = "my_stats";
     var myDb = {};
 
     myDb.save = function (website) {
         saveLocal(website);
     };
+    myDb.deviceId = function () {
+        var dfd = jQuery.Deferred();
+        chrome.storage.local.get(myConfig.APP_CONFIG, function (resp) {
+            if (typeof resp.runtimeStyle !== "undefined") {
+                console.error("Error in fetching app_config.");
+                dfd.reject();
+            } else {
+                dfd.resolve(resp);
+            }
+        });
+        return dfd.promise();
+    };
+    /**
+     * A public function to set data in chrome storage.
+     * @param data {{Object}} to save data in local db.
+     * @return {jquery.Promise}
+     */
+    myDb.setData = function (data) {
+        var dfd = jQuery.Deferred();
+        chrome.storage.local.set(data, function (resp) {
+            if (typeof resp !== "undefined") {
+                console.error("Storage saving error.");
+                dfd.reject();
+            } else {
+                dfd.resolve();
+            }
+        });
+        return dfd.promise();
+    };
+    /*
+     * Private function.
+     * */
     function saveLocal(website) {
         //TODO this variable should be at class level.
         var _today;
         today().then(function (str) {
             _today = str;
-            chrome.storage.local.get(STORAGE_NAME, function (resp) {
+            chrome.storage.local.get(myConfig.STORAGE_NAME, function (resp) {
                 if (typeof resp.runtime !== "undefined") {
                     console.error("Local Storage error");
                 } else {
@@ -27,7 +58,7 @@ var myDb = (function () {
     }
 
     function checkAndSetWebsite(website, resp) {
-        var websitesObj = resp[STORAGE_NAME]['websites'];
+        var websitesObj = resp[myConfig.STORAGE_NAME]['websites'];
         if (typeof websitesObj[website.domain.domain] === 'undefined') {
             websitesObj[website.domain.domain] = {
                 duration: website.duration,
@@ -52,17 +83,17 @@ var myDb = (function () {
         /*TODO code looks complex need to look again.*/
         var dfd = jQuery.Deferred();
         var _todayStr = moment().format("YYYY:MM:DD").toString();
-        chrome.storage.local.get(STORAGE_NAME, function (resp) {
+        chrome.storage.local.get(myConfig.STORAGE_NAME, function (resp) {
             if (typeof resp.runtime !== "undefined") {
                 console.error("Local Storage error");
                 dfd.reject();
             } else {
                 console.log(resp);
-                if (typeof resp[STORAGE_NAME] === "undefined" || resp[STORAGE_NAME]["today"] !== _todayStr) {
+                if (typeof resp[myConfig.STORAGE_NAME] === "undefined" || resp[myConfig.STORAGE_NAME]["today"] !== _todayStr) {
                     var newStorage = {};
-                    newStorage[STORAGE_NAME] = {}
-                    newStorage[STORAGE_NAME]["today"] = _todayStr;
-                    newStorage[STORAGE_NAME]["websites"] = {};
+                    newStorage[myConfig.STORAGE_NAME] = {}
+                    newStorage[myConfig.STORAGE_NAME]["today"] = _todayStr;
+                    newStorage[myConfig.STORAGE_NAME]["websites"] = {};
                     chrome.storage.local.set(newStorage, function (resp_set) {
                         if (typeof resp_set !== "undefined") {
                             console.error("Local Storage error");
