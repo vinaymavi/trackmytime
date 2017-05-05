@@ -17,6 +17,7 @@ var Website = (function () {
         this.tabId = tabId;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.device_id ="";
         this.toString = function () {
             return {"value": JSON.stringify(this)};
         }

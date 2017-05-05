@@ -19,9 +19,13 @@ var myWindows = (function () {
                         }
                     });
                     var website = new Website(tab.url, tab.tabId);
-                    if (website.domain.protocol !== "chrome:") {
-                        myStats.checkAndUpdate(website);
-                    }
+                    myDb.deviceId().then(function (resp) {
+                        website.device_id = resp['device_id'];
+                        if (website.domain.protocol !== "chrome:") {
+                            myStats.checkAndUpdate(website);
+                        }
+                    });
+
                 })
             }
         });
