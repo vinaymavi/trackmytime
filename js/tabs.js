@@ -5,6 +5,7 @@
 console.log("Tabs js loaded.");
 var myTabs = (function () {
     var myTabs = {};
+    var WEB_APP_URL = "https://my-stats-ext.appspot.com/login"
     /**
      * Register all tab listeners.
      */
@@ -40,6 +41,11 @@ var myTabs = (function () {
             dfd.resolve(tabs);
         });
         return dfd.promise();
+    }
+    myTabs.openWebApp = function () {
+        chrome.tabs.create({"url":WEB_APP_URL},function () {
+            console.log("Web App open");
+        })
     }
     /**
      * Create instance of website by tabId.

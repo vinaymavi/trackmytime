@@ -106,3 +106,6 @@ chrome.runtime.onMessageExternal.addListener(
             }
         })
     });
+chrome.browserAction.onClicked.addListener(function callback() {
+    myTabs.openWebApp();
+});
