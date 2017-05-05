@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "My Stats",
-  "description": "Extension to track per website visit time, user can use this extension on multiple chrome accounts and multiple laptops. extension provide graphical representation of data on cloud.This is a cloud first solution that provide multiple account/devices data synchronization",
+  "description": "Extension to track website visit time,this extension supports multiple chrome accounts and multiple laptops sync.",
   "version": "0.0.3",
   "browser_action": {
     "default_icon": "images/icon3.png",
