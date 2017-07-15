@@ -8,6 +8,7 @@ var myDb = (function () {
     var myDb = {};
 
     myDb.save = function (website) {
+        console.log("Save Data locally");
         saveLocal(website);
     };
     myDb.deviceId = function () {
@@ -61,12 +62,15 @@ var myDb = (function () {
         var websitesObj = resp[myConfig.STORAGE_NAME]['websites'];
         if (typeof websitesObj[website.domain.domain] === 'undefined') {
             websitesObj[website.domain.domain] = {
-                duration: website.duration,
+                localDuration: website.localDuration,
                 notification_count: 0
             }
         } else {
             var w = websitesObj[website.domain.domain];
-            w.duration += website.duration;
+            if(!w.localDuration){
+                w.localDuration = 0;
+            }
+            w.localDuration += website.localDuration;
         }
         chrome.storage.local.set(resp, function () {
             if (typeof resp_set !== "undefined") {

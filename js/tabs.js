@@ -5,7 +5,9 @@
 console.log("Tabs js loaded.");
 var myTabs = (function () {
     var myTabs = {};
-    var WEB_APP_URL = "https://my-stats-ext.appspot.com/login"
+    var ALARM_NAME = "PUSH_DATA";
+    // Interval in minutes.
+    var ALARM_INTERVAL = 10;
     /**
      * Register all tab listeners.
      */
@@ -33,7 +35,23 @@ var myTabs = (function () {
                 push(tab);
             })
         });
+        chrome.alarms.create(ALARM_NAME, {"periodInMinutes": ALARM_INTERVAL});
+        /**
+         * Alarm listener
+         * */
+        chrome.alarms.onAlarm.addListener(function (Alarm) {
+            if(Alarm.name === ALARM_NAME){
+                console.log("ALARM_NAME="+ALARM_NAME);
+                if(myWindows.isFocus){
+                    myTabs.getActive().then(function (tabs) {
+                        push(tabs[0]);
+                    });
+                }
+
+            }
+        });
     };
+
     myTabs.getActive = function () {
         var dfd = jQuery.Deferred();
         chrome.tabs.query({"active": true}, function (tabs) {
@@ -41,17 +59,13 @@ var myTabs = (function () {
             dfd.resolve(tabs);
         });
         return dfd.promise();
-    }
+    };
     myTabs.openWebApp = function () {
-        chrome.tabs.create({"url":WEB_APP_URL},function () {
+        chrome.tabs.create({"url":myConfig.WEB_APP_URL},function () {
             console.log("Web App open");
         })
-    }
-    /**
-     * Create instance of website by tabId.
-     * @param {{Integer}} tabId
-     * @return {{Promise}}
-     */
+    };
+
     function getTabById(tabId) {
         var dfd = jQuery.Deferred();
         chrome.tabs.get(tabId, function (tab) {
@@ -68,7 +82,6 @@ var myTabs = (function () {
                 myStats.checkAndUpdate(website);
             }
         });
-
     }
 
     return myTabs;

@@ -15,9 +15,13 @@ var Website = (function () {
         //TODO instance checking pending.
         this.domain = new Domain(url);
         this.tabId = tabId;
-        this.startTime = startTime;
+        this.startTime = startTime|| new moment();
         this.endTime = endTime;
+        /*TODO this temporary solutions.*/
+        this.localStartTime = new moment();
+        this.localEndTime;
         this.device_id ="";
+        this.isNewVisit = false;
         this.toString = function () {
             return {"value": JSON.stringify(this)};
         }

@@ -36,7 +36,7 @@ var myNotification = (function () {
      */
     myNotification.dailyStats = function (sitesObj) {
         console.log("Daily Stats calling.");
-    }
+    };
     /*
      * Start timer to check and send notifications.
      * */
@@ -47,12 +47,15 @@ var myNotification = (function () {
     /**
      * Alarm listener
      * */
-    chrome.alarms.onAlarm.addListener(function () {
-        getSites().then(function (sites) {
-            sites.forEach(function (site) {
-                singleSiteInfo(site);
-            })
-        })
+    chrome.alarms.onAlarm.addListener(function (Alarm) {
+        if(Alarm.name === ALARM_NAME){
+            console.log("ALARM_NAME="+ALARM_NAME);
+            getSites().then(function (sites) {
+                sites.forEach(function (site) {
+                    singleSiteInfo(site);
+                })
+            });
+        }
     });
     /**
      * Check sites that need to send notification from sites list.
@@ -73,12 +76,12 @@ var myNotification = (function () {
                 keysArr = Object.keys(websitesObj);
                 keysArr.forEach(function (val) {
                     website = websitesObj[val];
-                    if (parseInt(website.duration / SINGLE_SLOT) > website.notification_count) {
+                    if (parseInt(website.localDuration / SINGLE_SLOT) > website.notification_count) {
                         notificationSites.push({
                             "name": val,
-                            duration: website.duration
+                            duration: website.localDuration
                         });
-                        website.notification_count = parseInt(website.duration / SINGLE_SLOT)
+                        website.notification_count = parseInt(website.localDuration / SINGLE_SLOT)
                     }
                 });
 

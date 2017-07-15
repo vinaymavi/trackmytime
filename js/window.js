@@ -7,11 +7,15 @@ var myWindows = (function () {
         var currentWindow,
             lastFocusedWindow,
             tab;
+        myWindows.isFocus = true;
         chrome.windows.onFocusChanged.addListener(function (windowId) {
-            console.log(windowId);
+            console.log("onFocus Changed"+windowId);
+            /*checking off focus*/
             if (windowId < 0) {
                 myStats.onWindowOffFocus();
+                myWindows.isFocus = false;
             } else {
+                myWindows.isFocus = true;
                 myTabs.getActive().then(function (tabs) {
                     tabs.forEach(function (val) {
                         if (windowId === val.windowId) {

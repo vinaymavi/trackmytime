@@ -6,7 +6,7 @@ console.log("http js loaded.");
 var myCloud = (function () {
     var myCloud = {};
     myCloud.push = function (data) {
-        var url = myConfig.SERVER_URL + "/greeting/v1/website/data/push";
+        var url = myConfig.API_SERVER_URL + "/greeting/v1/website/data/push";
         jQuery.ajax({
             contentType: "application/json",
             method: "POST",
@@ -21,7 +21,7 @@ var myCloud = (function () {
 
     };
     myCloud.getDeviceId = function () {
-        var url = myConfig.SERVER_URL + "/greeting/v1/website/config/new_device_id";
+        var url = myConfig.API_SERVER_URL + "/greeting/v1/website/config/new_device_id";
         var dfd = jQuery.Deferred();
         jQuery.ajax({
             contentType: "application/json",

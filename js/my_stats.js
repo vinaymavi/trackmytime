@@ -30,7 +30,9 @@ var myStats = (function () {
     myStats.onWindowOffFocus = function () {
         if (typeof  currentSite !== "undefined") {
             currentSite.endTime = new moment();
+            currentSite.localEndTime = new moment();
             calDur(currentSite);
+            localCalDur(currentSite);
             pushData(currentSite);
             currentSite = undefined;
         }
@@ -39,24 +41,37 @@ var myStats = (function () {
         if (currentSite !== undefined) {
             if (currentSite.domain.domain === website.domain.domain) {
                 console.log("Same site");
+                currentSite.localEndTime = new moment();
+                localCalDur(currentSite);
+                pushData(currentSite,true);
+                /*TODO this is hack for local update*/
+                currentSite.localStartTime = new moment();
             } else {
                 currentSite.endTime = new moment();
+                currentSite.localEndTime = new moment();
                 calDur(currentSite);
+                localCalDur(currentSite);
                 pushData(currentSite);
-                website.startTime = new moment();
                 currentSite = website;
             }
         } else {
-            website.startTime = new moment();
             currentSite = website;
         }
     }
 
-    function pushData(website) {
+    /**
+     * Push interface to push data to all platforms, local and remote.
+     * @param website {Website}
+     * @param pushToLocalOnly {boolean}
+     */
+    function pushData(website,pushToLocalOnly) {
         console.log("Push data");
         console.log(JSON.stringify(website.toString()));
         myDb.save(website);
-        myCloud.push(JSON.stringify(website.toString()));
+        if(!pushToLocalOnly){
+            website.isNewVisit = true;
+            myCloud.push(JSON.stringify(website.toString()));
+        }
     }
 
     /**
@@ -66,6 +81,14 @@ var myStats = (function () {
         var duration = moment.duration(website.endTime.diff(website.startTime));
         var seconds = duration.asSeconds();
         website.duration = seconds;
+    }
+    /**
+     * Calculate duration between startTime and endTime.
+     */
+    function localCalDur(website) {
+        var duration = moment.duration(website.localEndTime.diff(website.localStartTime));
+        var seconds = duration.asSeconds();
+        website.localDuration = seconds;
     }
 
     return myStats;

@@ -7,7 +7,9 @@ var myConfig = (function () {
     config.APP_CONFIG = "app_config";
     config.USER_CONFIG = 'user_config';
     config.STORAGE_NAME = 'my_stats';
-    config.SERVER_URL = "https://my-stats-ext.appspot.com/_ah/api";
+    config.API_SERVER_URL = "https://beta-my-stats-ext.appspot.com/_ah/api";
+    config.WEB_APP_URL = "https://beta-my-stats-ext.appspot.com/login";
+
 
     config.hasDeviceId = function () {
         var dfd = jQuery.Deferred();
