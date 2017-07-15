@@ -98,6 +98,10 @@ var myStats = (function () {
 
 chrome.runtime.onStartup.addListener(init);
 chrome.runtime.onInstalled.addListener(init);
+chrome.runtime.setUninstallURL("https://docs.google.com/forms/d/1F8hLgQdvKVoo9gVc0-3pkU18hj9AS71hUCKH0KrMXPs/viewform", function () {
+/*TODO update Admin about un-installation*/
+    console.log("Un-Installed");
+});
 
 function init() {
     if (!isInit) {
