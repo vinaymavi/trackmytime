@@ -7,8 +7,10 @@ var myConfig = (function () {
     config.APP_CONFIG = "app_config";
     config.USER_CONFIG = 'user_config';
     config.STORAGE_NAME = 'my_stats';
+    config.WEBSITE_STORAGE_NAME = 'my_stats_website';
     config.API_SERVER_URL = "https://beta-my-stats-ext.appspot.com/_ah/api";
     config.WEB_APP_URL = "https://beta-my-stats-ext.appspot.com/login";
+    config.PUSH_DATA_URL = "https://us-central1-beta-my-stats-ext.cloudfunctions.net/website/save/";
 
 
     config.hasDeviceId = function () {

@@ -9,7 +9,7 @@ var myNotification = (function () {
     // Interval in minutes.
     var ALARM_INTERVAL = 1;
     var STORAGE_NAME = "my_stats";
-    var SINGLE_SLOT = 15 * 60;
+    var SINGLE_SLOT = 1 * 60;
 
     /**
      * Display information for single site.
@@ -23,9 +23,10 @@ var myNotification = (function () {
             "type": "basic",
             "iconUrl": "images/icon3.png",
             "title": site.name,
-            "message": "Today surfing time is " + parseFloat(site.duration / 60).toFixed(2) + " Min."
+            "message": "Today surfing time is " + parseFloat(site.duration / 60).toFixed(0) + " Min."
         };
         chrome.notifications.create(options, function (id) {
+            /*TODO user should need interaction*/
             console.log(id);
         });
     };
@@ -48,8 +49,8 @@ var myNotification = (function () {
      * Alarm listener
      * */
     chrome.alarms.onAlarm.addListener(function (Alarm) {
-        if(Alarm.name === ALARM_NAME){
-            console.log("ALARM_NAME="+ALARM_NAME);
+        if (Alarm.name === ALARM_NAME) {
+            console.log("ALARM_NAME=" + ALARM_NAME);
             getSites().then(function (sites) {
                 sites.forEach(function (site) {
                     singleSiteInfo(site);
@@ -67,31 +68,20 @@ var myNotification = (function () {
             notificationSites = [],
             website;
         var dfd = jQuery.Deferred();
-        //TODO this should be part of db class.
-        chrome.storage.local.get(STORAGE_NAME, function (resp) {
-            if (typeof resp.runtime !== "undefined") {
-                console.error("Local Storage error");
-            } else {
-                websitesObj = resp[STORAGE_NAME]["websites"];
-                keysArr = Object.keys(websitesObj);
-                keysArr.forEach(function (val) {
-                    website = websitesObj[val];
-                    if (parseInt(website.localDuration / SINGLE_SLOT) > website.notification_count) {
-                        notificationSites.push({
-                            "name": val,
-                            duration: website.localDuration
-                        });
-                        website.notification_count = parseInt(website.localDuration / SINGLE_SLOT)
-                    }
-                });
-
-                chrome.storage.local.set(resp, function () {
-                    if (typeof resp_set !== "undefined") {
-                        console.error("Storage saving error.");
-                    }
-                    dfd.resolve(notificationSites);
-                });
-            }
+        myDb.getWebsites().then((websitesObj)=> {
+            keysArr = Object.keys(websitesObj);
+            keysArr.forEach(function (val) {
+                website = websitesObj[val];
+                if (parseInt(website.localDuration / SINGLE_SLOT) > website.notification_count) {
+                    notificationSites.push({
+                        "name": val,
+                        duration: website.localDuration
+                    });
+                    website.notification_count = parseInt(website.localDuration / SINGLE_SLOT)
+                }
+            });
+            myDb.updateWebsites(websitesObj);
+            dfd.resolve(notificationSites);     
         });
         return dfd.promise();
     }

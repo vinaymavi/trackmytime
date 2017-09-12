@@ -43,7 +43,7 @@ var myStats = (function () {
                 console.log("Same site");
                 currentSite.localEndTime = new moment();
                 localCalDur(currentSite);
-                pushData(currentSite,true);
+                pushData(currentSite, true);
                 /*TODO this is hack for local update*/
                 currentSite.localStartTime = new moment();
             } else {
@@ -64,14 +64,14 @@ var myStats = (function () {
      * @param website {Website}
      * @param pushToLocalOnly {boolean}
      */
-    function pushData(website,pushToLocalOnly) {
+    function pushData(website, pushToLocalOnly) {
         console.log("Push data");
         console.log(JSON.stringify(website.toString()));
-        myDb.save(website);
-        if(!pushToLocalOnly){
+        if (!pushToLocalOnly) {
             website.isNewVisit = true;
             myCloud.push(JSON.stringify(website.toString()));
         }
+        myDb.save(website);
     }
 
     /**
@@ -82,6 +82,7 @@ var myStats = (function () {
         var seconds = duration.asSeconds();
         website.duration = seconds;
     }
+
     /**
      * Calculate duration between startTime and endTime.
      */
@@ -99,7 +100,7 @@ var myStats = (function () {
 chrome.runtime.onStartup.addListener(init);
 chrome.runtime.onInstalled.addListener(init);
 chrome.runtime.setUninstallURL("https://docs.google.com/forms/d/1F8hLgQdvKVoo9gVc0-3pkU18hj9AS71hUCKH0KrMXPs/viewform", function () {
-/*TODO update Admin about un-installation*/
+    /*TODO update Admin about un-installation*/
     console.log("Un-Installed");
 });
 
@@ -118,6 +119,7 @@ function init() {
                 });
             }
         });
+        myDb.init();
         myStats.init();
         isInit = true;
     }

@@ -6,7 +6,7 @@ console.log("http js loaded.");
 var myCloud = (function () {
     var myCloud = {};
     myCloud.push = function (data) {
-        var url = myConfig.API_SERVER_URL + "/greeting/v1/website/data/push";
+        var url = myConfig.PUSH_DATA_URL;
         jQuery.ajax({
             contentType: "application/json",
             method: "POST",
