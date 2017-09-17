@@ -82,6 +82,19 @@ var myDb = (function () {
             });
         });
     };
+    myDb.getStorage = function () {
+        const promise = new Promise((resolve, reject)=> {
+            chrome.storage.local.get(myConfig.STORAGE_NAME, function (resp) {
+                if (typeof resp.runtime !== "undefined") {
+                    console.error("Local Storage error");
+                    reject();
+                } else {
+                    resolve(resp);
+                }
+            });
+        });
+        return promise;
+    };
     /*
      * Private function.
      * */
@@ -112,7 +125,8 @@ var myDb = (function () {
                 device_id: website.device_id,
                 client_type: "Chrome",
                 os_type: website.os_type,
-                visit_count: 1
+                visit_count: 1,
+                date:website.date
             }
         } else {
             var w = websitesObj[website.domain.domain];

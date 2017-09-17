@@ -14,7 +14,7 @@ var myCloud = (function () {
             data: data,
             dataType: "json"
         }).done(function (msg) {
-            console.info("Data Saved: " + msg);
+            console.info("Data Saved: " + JSON.stringify(msg));
         }).fail(function (msg) {
             console.error(msg)
         });

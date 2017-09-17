@@ -19,7 +19,8 @@
       "js/notification.js",
       "js/tabs.js",
       "js/window.js",
-      "js/config.js"
+      "js/config.js",
+      "js/cron.js"
     ]
   },
   "permissions": [

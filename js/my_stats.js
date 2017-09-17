@@ -67,10 +67,6 @@ var myStats = (function () {
     function pushData(website, pushToLocalOnly) {
         console.log("Push data");
         console.log(JSON.stringify(website.toString()));
-        if (!pushToLocalOnly) {
-            website.isNewVisit = true;
-            myCloud.push(JSON.stringify(website.toString()));
-        }
         myDb.save(website);
     }
 
@@ -121,6 +117,7 @@ function init() {
         });
         myDb.init();
         myStats.init();
+        cron.init();
         isInit = true;
     }
 }

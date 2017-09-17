@@ -23,6 +23,7 @@ var Website = (function () {
         this.device_id = "";
         this.isNewVisit = false;
         this.os_type = myWindows.os();
+        this.date = moment.utc().startOf("day").valueOf();
         this.toString = function () {
             return {"value": JSON.stringify(this)};
         }
